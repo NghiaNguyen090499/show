@@ -1,101 +1,37 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <title>Title</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-</head>
-
-<body onload="JavaScript:AutoRefresh(30000);">
-    <header id="header">
-        <nav class="navbar navbar-dark bg-dark mt-3">
-            <a class="navbar-brand" href="#">
-                <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/logo_white.png"
-                    width="30" height="30" alt="logo">
-            </a>
-        </nav>
-    </header>
-    <div id="khachHangList"></div>
-    a
-
-    <main id="main">
-        <section style="margin-top: 20px;" class="u-align-center u-clearfix u-image u-valign-middle u-section-1"
-            id="carousel_127e" data-image-width="5000" data-image-height="3333">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        <span style="font-size: 30px;" class="font-weight-bold"></span>
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-md-12">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th scope="col">HỌ VÀ TÊN</th>
-                                        <th scope="col">SỐ THỨ TỰ</th>
-                                        <th scope="col">DỊCH VỤ</th>
-                                        <th scope="col">ĐANG XỬ LÝ</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
-</body>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notification Example</title>
 <script>
-    // Gửi yêu cầu GET đến API endpoint để lấy dữ liệu KhachHang
-    fetch('https://192.168.15.174:8000/api/khachhang/')
-        .then(response => response.json())
-        .then(data => {
-            // Hiển thị dữ liệu lên giao diện
-            const khachHangList = document.getElementById('khachHangList');
-            data.forEach(khachHang => {
-                const khachHangElement = document.createElement('div');
-                khachHangElement.innerHTML = `
-                    <p>ID: ${khachHang.id}</p>
-                    <p>Name: ${khachHang.name}</p>
-                    <p>Ticket Number: ${khachHang.ticket_number}</p>
-                    <p>Is Calling: ${khachHang.is_calling}</p>
-                    <p>Is Called: ${khachHang.is_called}</p>
-                    <p>Employee ID: ${khachHang.employee_id}</p>
-                    <hr>
-                `;
-                khachHangList.appendChild(khachHangElement);
-            });
-        })
-        .catch(error => console.error('Error fetching data:', error));
-</script>
+window.onload = function() {
+    if (!("Notification" in window)) {
+        alert("Trình duyệt của bạn không hỗ trợ Notification API!");
+    } else if (Notification.permission !== 'granted') {
+        Notification.requestPermission().then(function(permission) {
+            if (permission === 'granted') {
+                // Không cần hiển thị thông báo ở đây
+            }
+        });
+    }
 
+    function showNotification() {
+        var notification = new Notification("Tiêu đề thông báo", {
+            icon: "path/to/icon.png",
+            body: "Nội dung thông báo ở đây"
+        });
+
+        // Xử lý sự kiện khi thông báo được nhấp
+        notification.onclick = function() {
+            alert("Thông báo đã được nhấp!");
+        };
+    }
+};
+</script>
+</head>
+<body>
+<button onclick="showNotification()">Hiển thị thông báo</button>
+<!-- Nội dung trang web -->
+</body>
 </html>
